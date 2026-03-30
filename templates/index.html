@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Home AI Dashboard - Android TV</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <header class="dashboard-header">
+            <h1>🏠 Home AI Dashboard</h1>
+            <div class="datetime" id="datetime"></div>
+        </header>
+
+        <div class="dashboard-grid">
+            <!-- Weather Module -->
+            <div class="card weather-card" id="weather-card">
+                <div class="card-header">
+                    <h2>🌤️ Weather</h2>
+                    <button class="refresh-btn" onclick="refreshWeather()">↻</button>
+                </div>
+                <div class="card-content" id="weather-content">
+                    <div class="loading">Loading weather...</div>
+                </div>
+            </div>
+
+            <!-- News Module -->
+            <div class="card news-card">
+                <div class="card-header">
+                    <h2>📰 News Headlines</h2>
+                    <button class="refresh-btn" onclick="refreshNews()">↻</button>
+                </div>
+                <div class="card-content" id="news-content">
+                    <div class="loading">Loading news...</div>
+                </div>
+            </div>
+
+            <!-- Network Status Module -->
+            <div class="card network-card">
+                <div class="card-header">
+                    <h2>🌐 Network Status</h2>
+                    <button class="refresh-btn" onclick="refreshNetwork()">↻</button>
+                </div>
+                <div class="card-content" id="network-content">
+                    <div class="loading">Scanning network...</div>
+                </div>
+            </div>
+
+            <!-- Study Tasks Module -->
+            <div class="card tasks-card">
+                <div class="card-header">
+                    <h2>📚 Study Tasks</h2>
+                    <button class="add-btn" onclick="showAddTaskModal()">+ Add Task</button>
+                </div>
+                <div class="card-content" id="tasks-content">
+                    <div class="loading">Loading tasks...</div>
+                </div>
+            </div>
+
+            <!-- AI Chatbot Module -->
+            <div class="card chatbot-card">
+                <div class="card-header">
+                    <h2>🤖 AI Assistant</h2>
+                </div>
+                <div class="card-content">
+                    <div class="chat-container">
+                        <div class="chat-messages" id="chat-messages">
+                            <div class="message assistant">Hello! How can I help you today?</div>
+                        </div>
+                        <div class="chat-input-area">
+                            <input type="text" id="chat-input" placeholder="Ask me anything..." onkeypress="handleChatKeyPress(event)">
+                            <button onclick="sendChatMessage()">Send</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- YouTube Study List -->
+            <div class="card youtube-card">
+                <div class="card-header">
+                    <h2>🎥 Study Videos</h2>
+                    <button class="add-btn" onclick="showAddVideoModal()">+ Add Video</button>
+                </div>
+                <div class="card-content" id="youtube-content">
+                    <div class="loading">Loading videos...</div>
+                </div>
+            </div>
+
+            <!-- Calendar Module -->
+            <div class="card calendar-card">
+                <div class="card-header">
+                    <h2>📅 Calendar</h2>
+                    <button class="add-btn" onclick="showAddEventModal()">+ Add Event</button>
+                </div>
+                <div class="card-content" id="calendar-content">
+                    <div class="loading">Loading events...</div>
+                </div>
+            </div>
+
+            <!-- Prayer Times Module -->
+            <div class="card prayer-card">
+                <div class="card-header">
+                    <h2>🕌 Prayer Times</h2>
+                    <button class="refresh-btn" onclick="refreshPrayerTimes()">↻</button>
+                </div>
+                <div class="card-content" id="prayer-content">
+                    <div class="loading">Loading prayer times...</div>
+                </div>
+            </div>
+
+            <!-- Notes Module -->
+            <div class="card notes-card">
+                <div class="card-header">
+                    <h2>📝 Notes</h2>
+                    <button class="add-btn" onclick="showAddNoteModal()">+ Add Note</button>
+                </div>
+                <div class="card-content" id="notes-content">
+                    <div class="loading">Loading notes...</div>
+                </div>
+            </div>
+
+            <!-- Family Reminder Board -->
+            <div class="card reminders-card">
+                <div class="card-header">
+                    <h2>👨‍👩‍👧‍👦 Family Reminders</h2>
+                    <button class="add-btn" onclick="showAddReminderModal()">+ Add Reminder</button>
+                </div>
+                <div class="card-content" id="reminders-content">
+                    <div class="loading">Loading reminders...</div>
+                </div>
+            </div>
+
+            <!-- CCTV Module -->
+            <div class="card cctv-card">
+                <div class="card-header">
+                    <h2>📹 CCTV Cameras</h2>
+                    <button class="refresh-btn" onclick="refreshCCTV()">↻</button>
+                </div>
+                <div class="card-content" id="cctv-content">
+                    <div class="loading">Loading cameras...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <div id="task-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('task-modal')">&times;</span>
+            <h3>Add Study Task</h3>
+            <input type="text" id="task-title" placeholder="Task title">
+            <textarea id="task-description" placeholder="Description"></textarea>
+            <input type="datetime-local" id="task-due-date">
+            <button onclick="saveTask()">Save Task</button>
+        </div>
+    </div>
+
+    <div id="video-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('video-modal')">&times;</span>
+            <h3>Add Study Video</h3>
+            <input type="text" id="video-title" placeholder="Video title (optional)">
+            <input type="url" id="video-url" placeholder="YouTube URL">
+            <button onclick="saveVideo()">Add Video</button>
+        </div>
+    </div>
+
+    <div id="event-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('event-modal')">&times;</span>
+            <h3>Add Calendar Event</h3>
+            <input type="text" id="event-title" placeholder="Event title">
+            <textarea id="event-description" placeholder="Description"></textarea>
+            <input type="datetime-local" id="event-start">
+            <input type="datetime-local" id="event-end">
+            <label>
+                <input type="checkbox" id="event-all-day"> All day
+            </label>
+            <button onclick="saveEvent()">Save Event</button>
+        </div>
+    </div>
+
+    <div id="note-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('note-modal')">&times;</span>
+            <h3>Add Note</h3>
+            <input type="text" id="note-title" placeholder="Note title">
+            <textarea id="note-content" placeholder="Note content"></textarea>
+            <button onclick="saveNote()">Save Note</button>
+        </div>
+    </div>
+
+    <div id="reminder-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('reminder-modal')">&times;</span>
+            <h3>Add Family Reminder</h3>
+            <input type="text" id="reminder-title" placeholder="Reminder title">
+            <textarea id="reminder-description" placeholder="Description"></textarea>
+            <input type="datetime-local" id="reminder-date">
+            <input type="text" id="reminder-created-by" placeholder="Created by" value="Family">
+            <button onclick="saveReminder()">Save Reminder</button>
+        </div>
+    </div>
+
+    <script src="/static/js/dashboard.js"></script>
+</body>
+</html>
