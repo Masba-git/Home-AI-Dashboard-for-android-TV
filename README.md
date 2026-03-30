@@ -1,4 +1,4 @@
-# Home AI Dashboard for Android TV - FREE Version
+# Home AI Dashboard for Android TV 
 
 A complete production-ready dashboard system for Android TV with 10+ integrated modules using **ONLY FREE APIS**.
 
